@@ -250,27 +250,25 @@ export default function MyBookingsPage() {
   // Direct format without timezone conversion
   
 
-  const formatTimeOnly = (dateString: string) => {
-    const timePart = dateString.split('T')[1]?.split('.')[0];
-    if (!timePart) return '';
-    
-    let [hours, minutes] = timePart.split(':');
-    let hour = parseInt(hours);
-    const ampm = hour >= 12 ? 'PM' : 'AM';
-    hour = hour % 12 || 12;
-    return `${hour}:${minutes} ${ampm}`;
-  };
+ const formatFullDate = (dateString: string) => {
+  return new Date(dateString).toLocaleDateString("en-US", {
+    timeZone: "Asia/Kolkata",
+    month: "long",
+    day: "numeric",
+    year: "numeric"
+  });
+  // → "May 22, 2026" ✅
+};
 
-  const formatFullDate = (dateString: string) => {
-    const datePart = dateString.split('T')[0];
-    const [year, month, day] = datePart.split('-');
-    const date = new Date(parseInt(year), parseInt(month) - 1, parseInt(day));
-    return date.toLocaleDateString('en-US', {
-      month: 'long',
-      day: 'numeric',
-      year: 'numeric'
-    });
-  };
+  const formatTimeOnly = (dateString: string) => {
+  return new Date(dateString).toLocaleTimeString("en-IN", {
+    timeZone: "Asia/Kolkata",
+    hour: "2-digit",
+    minute: "2-digit",
+    hour12: true
+  });
+  // → "10:30 AM" ✅
+};
 
   const getServiceName = (appointment: Appointment) => {
     return appointment.ProviderService?.Service?.name || "Service";

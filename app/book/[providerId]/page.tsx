@@ -154,9 +154,7 @@ const [selectedDate, setSelectedDate] = useState(getTodayDate||"");
 
   const createDateTime = (date: string, timeMinutes: number) => {
     const [y, mo, d] = date.split("-");
-    const dt = new Date(
-      Date.UTC(+y, +mo - 1, +d, Math.floor(timeMinutes / 60), timeMinutes % 60, 0)
-    );
+    const dt = new Date(+y, +mo - 1, +d, Math.floor(timeMinutes / 60), timeMinutes % 60, 0);
     return dt.toISOString();
   };
 
