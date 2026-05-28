@@ -483,14 +483,23 @@ export default function BookingPage() {
     if (paymentType === "cash") handleCashPayment();
     else handleOnlinePayment();
   };
-
+ async function authCheck(){
+  try {
+    const res= await checkAuthStatus();
+    if(!res){
+      alert("please login");
+    window.location.href="/login";
+    }
+  } catch (error) {
+    alert("please login");
+    window.location.href="/login";
+    return;
+    
+  }
+ }
   // ── Effects ───────────────────────────────────────────────────────────────────
   useEffect(() => {
-    if(!checkAuthStatus()){
-      alert("you aren't loggedin");
-      router.push("/login");
-      return;
-    }
+   authCheck();
     fetchProviderDetails();
   }, []);
 
