@@ -61,9 +61,7 @@ export default function ServicesSection({
   // Fetch categories on mount
 
   
-  useEffect(()=>{
-   fetchCategories();
-    },[]);
+  
 
   const fetchCategories = async () => {
     try {
@@ -85,7 +83,9 @@ export default function ServicesSection({
     } 
   };
 
- 
+ useEffect(()=>{
+   fetchCategories();
+    },[]);
 
   if (loading) {
     return (
