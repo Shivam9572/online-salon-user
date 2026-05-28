@@ -19,6 +19,7 @@ interface AuthContextType {
   user: UserData | null;
   loading: boolean;
   otpLoading: boolean;
+  checkAuthStatus:()=>Promise<boolean>;
   login: (email: string, password: string) => Promise<{ success: boolean; message?: string }>;
   initiateRegistration: (name: string, email: string, password: string) => Promise<{ success: boolean; message?: string; otpSent?: boolean }>;
   verifyOtp: (email: string, otp: string) => Promise<{ success: boolean; message?: string }>;
@@ -72,28 +73,33 @@ export function AuthProvider({ children }: { children: ReactNode }) {
               setUser(data.user);
               // Update localStorage with fresh user data
               localStorage.setItem("user_data", JSON.stringify(data.user));
+              return true;
             } else {
               // Token expired or invalid
               localStorage.removeItem("user_data");
               setIsLoggedIn(false);
               setUser(null);
+              return false;
             }
           } else {
             // API error, but still show cached user
             localStorage.removeItem("user_data");
             setIsLoggedIn(false);
-            setUser(user);
+            setUser(null);
+            return false;
           }
         
       }  else {
         localStorage.removeItem("user_data");
         setIsLoggedIn(false);
         setUser(null);
+        return false;
       }
     } catch (error) {
       console.error("Auth check failed:", error);
       setIsLoggedIn(false);
       setUser(null);
+      return false;
     } finally {
       setLoading(false);
     }
@@ -255,6 +261,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       loading, 
       otpLoading,
       login, 
+      checkAuthStatus,
       initiateRegistration, 
       verifyOtp, 
       logout, 

@@ -86,7 +86,7 @@ interface PaginationData {
 
 export default function MyBookingsPage() {
   const router = useRouter();
-  const { isLoggedIn, user } = useAuth();
+  const { checkAuthStatus } = useAuth();
   const [appointments, setAppointments] = useState<Appointment[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -95,7 +95,7 @@ export default function MyBookingsPage() {
   const [selectedAppointment, setSelectedAppointment] = useState<Appointment | null>(null);
   const [showDetailsModal, setShowDetailsModal] = useState(false);
   const [cancellingId, setCancellingId] = useState<string | null>(null);
-  
+
   // Feedback modal state
   const [showFeedbackModal, setShowFeedbackModal] = useState(false);
   const [feedbackAppointment, setFeedbackAppointment] = useState<Appointment | null>(null);
@@ -248,27 +248,27 @@ export default function MyBookingsPage() {
   };
 
   // Direct format without timezone conversion
-  
 
- const formatFullDate = (dateString: string) => {
-  return new Date(dateString).toLocaleDateString("en-US", {
-    timeZone: "Asia/Kolkata",
-    month: "long",
-    day: "numeric",
-    year: "numeric"
-  });
-  // → "May 22, 2026" ✅
-};
+
+  const formatFullDate = (dateString: string) => {
+    return new Date(dateString).toLocaleDateString("en-US", {
+      timeZone: "Asia/Kolkata",
+      month: "long",
+      day: "numeric",
+      year: "numeric"
+    });
+    // → "May 22, 2026" ✅
+  };
 
   const formatTimeOnly = (dateString: string) => {
-  return new Date(dateString).toLocaleTimeString("en-IN", {
-    timeZone: "Asia/Kolkata",
-    hour: "2-digit",
-    minute: "2-digit",
-    hour12: true
-  });
-  // → "10:30 AM" ✅
-};
+    return new Date(dateString).toLocaleTimeString("en-IN", {
+      timeZone: "Asia/Kolkata",
+      hour: "2-digit",
+      minute: "2-digit",
+      hour12: true
+    });
+    // → "10:30 AM" ✅
+  };
 
   const getServiceName = (appointment: Appointment) => {
     return appointment.ProviderService?.Service?.name || "Service";
@@ -304,14 +304,21 @@ export default function MyBookingsPage() {
       setLoading(false);
     }
   };
-
-      useEffect(() => {
-    if (!isLoggedIn) {
-      router.push("/");
+  useEffect(() => {
+    if (!checkAuthStatus()) {
+      alert("you logged out");
+      router.push("/login");
+      return;
+    }
+  }, []);
+  useEffect(() => {
+    if (!checkAuthStatus()) {
+      alert("you logged out");
+      router.push("/login");
       return;
     }
     fetchAppointments();
-  }, [isLoggedIn, currentPage]);
+  }, [currentPage]);
 
   // Render stars for rating
   const renderStars = (ratingValue: number, size: string = "w-5 h-5", interactive: boolean = false, onRatingChange?: (rating: number) => void, onHoverChange?: (rating: number) => void) => {
@@ -328,11 +335,10 @@ export default function MyBookingsPage() {
             disabled={!interactive}
           >
             <Star
-              className={`${size} ${
-                star <= (interactive ? (hoverRating || ratingValue) : ratingValue)
+              className={`${size} ${star <= (interactive ? (hoverRating || ratingValue) : ratingValue)
                   ? "fill-[#c9a96e] text-[#c9a96e]"
                   : "text-white/30"
-              } transition-colors`}
+                } transition-colors`}
             />
           </button>
         ))}
@@ -340,9 +346,7 @@ export default function MyBookingsPage() {
     );
   };
 
-  if (!isLoggedIn) {
-    return null;
-  }
+
 
   return (
     <div className="min-h-screen bg-[#0a0a0f] pt-[72px] pb-12">
@@ -409,16 +413,15 @@ export default function MyBookingsPage() {
                 const startDate = formatFullDate(appointment.start_time);
                 const startTime = formatTimeOnly(appointment.start_time);
                 const endTime = formatTimeOnly(appointment.end_time);
-                
+
                 return (
                   <motion.div
                     key={appointment.id}
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ delay: index * 0.05 }}
-                    className={`bg-gradient-to-br from-[#12121a] to-[#1a1a24] rounded-2xl border p-6 hover:border-white/20 transition-all ${
-                      isPast ? 'border-white/5 opacity-75' : 'border-white/10'
-                    }`}
+                    className={`bg-gradient-to-br from-[#12121a] to-[#1a1a24] rounded-2xl border p-6 hover:border-white/20 transition-all ${isPast ? 'border-white/5 opacity-75' : 'border-white/10'
+                      }`}
                   >
                     <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4">
                       {/* Left Section - Salon Info */}
@@ -441,10 +444,10 @@ export default function MyBookingsPage() {
                               <span className={`px-2 py-0.5 rounded-full text-xs ${getPaymentStatusColor(appointment.payment_status)}`}>
                                 <span className="flex items-center gap-1">
                                   {getPaymentIcon(appointment.payment_type)}
-                                  {appointment.payment_status === "paid" ? "Paid" : 
-                                   appointment.payment_status === "pending" ? "Payment Pending" : 
-                                   appointment.payment_status === "unpaid" ? "Unpaid" :
-                                   appointment.payment_status}
+                                  {appointment.payment_status === "paid" ? "Paid" :
+                                    appointment.payment_status === "pending" ? "Payment Pending" :
+                                      appointment.payment_status === "unpaid" ? "Unpaid" :
+                                        appointment.payment_status}
                                 </span>
                               </span>
                               {isPast && appointment.status !== "cancelled" && (
@@ -467,9 +470,11 @@ export default function MyBookingsPage() {
                                   ({getServiceDuration(appointment)} min)
                                 </span>
                               </div>
-                              <div className="flex items-center gap-2 text-white/60">
-                                <MapPin className="w-3.5 h-3.5" />
-                                <span className="truncate">{appointment.provider.salonAddress}</span>
+                              <div className="flex items-start gap-2 flex-wrap mb-2 min-w-0 w-[90%]">
+                                <MapPin className="w-3.5 h-3.5 flex-shrink-0" />
+                                <span className="flex-1 truncate">
+                                  {appointment.provider.salonAddress}
+                                </span>
                               </div>
                             </div>
                           </div>
@@ -550,7 +555,7 @@ export default function MyBookingsPage() {
                 >
                   <ChevronLeft className="w-5 h-5 mx-auto" />
                 </button>
-                
+
                 <div className="flex gap-2">
                   {Array.from({ length: Math.min(5, pagination.totalPages) }, (_, i) => {
                     let pageNum;
@@ -563,23 +568,22 @@ export default function MyBookingsPage() {
                     } else {
                       pageNum = currentPage - 2 + i;
                     }
-                    
+
                     return (
                       <button
                         key={pageNum}
                         onClick={() => setCurrentPage(pageNum)}
-                        className={`w-10 h-10 rounded-xl transition-all ${
-                          currentPage === pageNum
+                        className={`w-10 h-10 rounded-xl transition-all ${currentPage === pageNum
                             ? "bg-gradient-to-r from-[#c9a96e] to-[#e8c88a] text-[#0a0a0f] font-semibold"
                             : "border border-white/20 text-white hover:bg-white/5"
-                        }`}
+                          }`}
                       >
                         {pageNum}
                       </button>
                     );
                   })}
                 </div>
-                
+
                 <button
                   onClick={() => setCurrentPage(prev => Math.min(prev + 1, pagination.totalPages))}
                   disabled={currentPage === pagination.totalPages}
@@ -678,10 +682,10 @@ export default function MyBookingsPage() {
                   <div>
                     <p className="text-white/40 text-xs mb-1">Payment Status</p>
                     <span className={`inline-flex items-center gap-1 px-2 py-1 rounded-full text-xs ${getPaymentStatusColor(selectedAppointment.payment_status)}`}>
-                      {selectedAppointment.payment_status === "paid" ? "✓ Paid" : 
-                       selectedAppointment.payment_status === "pending" ? "⏳ Pending" : 
-                       selectedAppointment.payment_status === "unpaid" ? "Unpaid" :
-                       selectedAppointment.payment_status}
+                      {selectedAppointment.payment_status === "paid" ? "✓ Paid" :
+                        selectedAppointment.payment_status === "pending" ? "⏳ Pending" :
+                          selectedAppointment.payment_status === "unpaid" ? "Unpaid" :
+                            selectedAppointment.payment_status}
                     </span>
                   </div>
                 </div>

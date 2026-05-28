@@ -104,7 +104,7 @@ export default function HomePage() {
           onSearchResults={handleSearchResults}
           setSearchLoading={setIsSearchLoading}
         />
-        <ServicesSection
+         <ServicesSection
           onBookNow={handleBookNow}
         />
         <TopSalonsSection
@@ -113,7 +113,7 @@ export default function HomePage() {
           searchQuery={searchQuery}
           searchLocation={searchLocation}
           onClearSearch={handleClearSearch}
-        />
+        /> 
         <WhyChooseUs />
       </div>
     </main>

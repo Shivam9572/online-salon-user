@@ -61,7 +61,9 @@ export default function ServicesSection({
   // Fetch categories on mount
 
   
-  
+  useEffect(()=>{
+   fetchCategories();
+    },[]);
 
   const fetchCategories = async () => {
     try {
@@ -84,9 +86,7 @@ export default function ServicesSection({
   };
 
  
-useState(()=>{
-   fetchCategories();
-})
+
   if (loading) {
     return (
       <section id="services" className="py-20 bg-gradient-to-b from-[#0a0a0f] to-[#12121a]">
