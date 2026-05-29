@@ -1,7 +1,7 @@
 Online Salon User 💇‍♂️📅
 A modern salon appointment booking platform for users where customers can explore salon services, book appointments online, manage schedules, and enjoy a smooth salon booking experience.
 🚀 Live Demo
-🌐 Live Website: https://salon-appointment-a32y.vercel.app⁠�
+🌐 Live Website: https://salon-appointment-a32y.vercel.app
 📌 Features
 🔐 User Authentication & Authorization
 📅 Book Salon Appointments Online
