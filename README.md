@@ -1,36 +1,70 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
-
-## Getting Started
-
-First, run the development server:
-
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
-
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
-
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
-
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
-
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+Online Salon User 💇‍♂️📅
+A modern salon appointment booking platform for users where customers can explore salon services, book appointments online, manage schedules, and enjoy a smooth salon booking experience.
+🚀 Live Demo
+🌐 Live Website: https://salon-appointment-a32y.vercel.app⁠�
+📌 Features
+🔐 User Authentication & Authorization
+📅 Book Salon Appointments Online
+💇 Explore Different Salon Services
+👨‍🎨 Choose Preferred Stylists
+📱 Fully Responsive Design
+⚡ Fast & User-Friendly Interface
+🕒 Appointment Time Management
+☁️ Deployed on Vercel
+🛠 Tech Stack
+Frontend
+React.js
+Tailwind CSS
+React Router DOM
+Axios
+Backend
+Node.js
+Express.js
+Database
+MongoDB
+Deployment
+Vercel
+📂 Project Structure
+Bash
+online-salon-user/
+│── public/
+│── src/
+│── package.json
+│── README.md
+⚙️ Installation & Setup
+1️⃣ Clone Repository
+Bash
+git clone https://github.com/Shivam9572/online-salon-user.git
+2️⃣ Open Project Folder
+Bash
+cd online-salon-user
+3️⃣ Install Dependencies
+Bash
+npm install
+4️⃣ Start Development Server
+Bash
+npm start
+🌍 Environment Variables
+Create a .env file and add:
+Environment
+REACT_APP_API_URL=your_backend_url
+📸 Main Modules
+🏠 Home Page
+🔍 Service Browsing
+📅 Appointment Booking
+👤 User Dashboard
+🔐 Login & Signup
+📈 Future Improvements
+💳 Online Payment Gateway
+📧 Email Notifications
+⭐ Ratings & Reviews
+📲 Push Notifications
+🤖 AI-based Service Recommendations
+👨‍💻 Developer
+Made with ❤️ by Shivam Kumar
+GitHub: github.com⁠�
+Repository: github.com⁠�
+🌐 Live Project
+🚀 salon-appointment-a32y.vercel.app⁠�
+📄 License
+This project is open-source and available under the MIT License.
